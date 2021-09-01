@@ -1,4 +1,8 @@
-﻿using TuringMachine.ViewModels.Base;
+﻿using System.Windows;
+using System.Windows.Input;
+using TuringMachine.Infrastructure.Commands;
+using TuringMachine.ViewModels.Base;
+using System;
 
 namespace TuringMachine.ViewModels
 {
@@ -45,5 +49,31 @@ namespace TuringMachine.ViewModels
             }
         }
         #endregion
+
+        #region Commands
+
+        #region CloseAppCommand : ICommand – Command to close the app
+        /// <summary>
+        /// Commmand to close the app
+        /// </summary>
+        public ICommand CloseAppCommand { get; }
+         
+        private void OnCloseAppCommandExecuted(object p) => Application.Current.Shutdown();
+
+        private bool CanCloseAppCommandExecute(object p) => true;
+        #endregion
+
+
+        #endregion
+
+        public MainWindowViewModel()
+        {
+            #region Commands
+
+            CloseAppCommand = new RelayCommand(OnCloseAppCommandExecuted, CanCloseAppCommandExecute);
+
+            #endregion
+
+        }
     }
 }
