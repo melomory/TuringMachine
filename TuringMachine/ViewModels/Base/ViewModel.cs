@@ -18,6 +18,7 @@ namespace TuringMachine.ViewModels.Base
             {
                 return false;
             }
+
             field = value;
             OnPropertyChanged();
             return true;
