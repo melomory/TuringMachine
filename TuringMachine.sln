@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TuringMachine", "TuringMachine\TuringMachine.csproj", "{97590C03-60DA-458A-AA92-669E34AA8747}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TuringMachineConsole", "Tests\TuringMachineConsole\TuringMachineConsole.csproj", "{648D3B9F-9ED8-4F18-9ED2-043E82E6625E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{C58DABFA-86C8-4962-BC81-4DA0AF6B974A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +19,16 @@ Global
 		{97590C03-60DA-458A-AA92-669E34AA8747}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97590C03-60DA-458A-AA92-669E34AA8747}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97590C03-60DA-458A-AA92-669E34AA8747}.Release|Any CPU.Build.0 = Release|Any CPU
+		{648D3B9F-9ED8-4F18-9ED2-043E82E6625E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{648D3B9F-9ED8-4F18-9ED2-043E82E6625E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{648D3B9F-9ED8-4F18-9ED2-043E82E6625E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{648D3B9F-9ED8-4F18-9ED2-043E82E6625E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{97590C03-60DA-458A-AA92-669E34AA8747} = {C58DABFA-86C8-4962-BC81-4DA0AF6B974A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3C18E159-EC5F-4544-9A5E-ADB9967635E6}
