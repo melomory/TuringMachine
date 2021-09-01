@@ -4,7 +4,7 @@ namespace TuringMachine.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
-        #region Window Title
+        #region Title : string – Window  Title
         /// <summary>
         /// Main Window Title
         /// </summary>
@@ -25,5 +25,25 @@ namespace TuringMachine.ViewModels
         }
         #endregion
 
+        #region Status : string – App status
+        /// <summary>
+        /// App status
+        /// </summary>
+        private string _Status = "Готов";
+        public string Status
+        {
+            get => _Status;
+            //set => Set(ref _Status, value);
+            set
+            {
+                if (_Status != value)
+                {
+                    _Status = value;
+                    OnPropertyChanged();
+                }
+
+            }
+        }
+        #endregion
     }
 }
