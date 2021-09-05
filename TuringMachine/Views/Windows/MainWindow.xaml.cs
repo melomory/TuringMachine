@@ -1,4 +1,8 @@
 ﻿using System.Windows;
+using TuringMachine.ViewModels;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Controls;
 
 namespace TuringMachine
 {
@@ -9,4 +13,6 @@ namespace TuringMachine
             InitializeComponent();
         }
     }
+
+
 }

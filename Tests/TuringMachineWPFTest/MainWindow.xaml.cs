@@ -12,68 +12,80 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
+using System.Dynamic;
+
 
 namespace TuringMachineWPFTest
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+
+    public class tbItem : DynamicObject
+    {
+        public string AS { get; set; }
+        public string Q1 { get; set; }
+        public string Q2 { get; set; }
+        public string Q3 { get; set; }
+        public string Q4 { get; set; }
+        public string Q5 { get; set; }
+        public string Q6 { get; set; }
+        public string Q7 { get; set; }
+        public string Q8 { get; set; }
+        public string Q9 { get; set; }
+        public string Q10 { get; set; }
+
+        Dictionary<string, object> dictionary
+            = new Dictionary<string, object>();
+        public int Count
+        {
+            get
+            {
+                return dictionary.Count;
+            }
+        }
+        public override bool TryGetMember(
+            GetMemberBinder binder, out object result)
+        {
+            string name = binder.Name;
+            return dictionary.TryGetValue(name, out result);
+        }
+        public override bool TrySetMember(
+            SetMemberBinder binder, object value)
+        {
+            dictionary[binder.Name] = value;
+            return true;
+        }
+        public void AddProperty<TTValue>(string key, TTValue value = default(TTValue))
+        {
+            dictionary[key] = value;
+        }
+        public void AddProperty(string typeName, string key, object value = null)
+        {
+            Type type = Type.GetType(typeName);
+            dictionary[key] = Convert.ChangeType(value, type);
+        }
+    }
+
     public partial class MainWindow : Window
     {
-        public string Text { get; set; }
-
-        public string Move { get; set; } = "><.";
-     
-        public struct Test
-        {
-            public string Q0 { get; set; }
-            public string Q1 { get; set; }
-            public string Q2 { get; set; }
-        }
-
-        public Test test;
+        public List<tbItem> Items { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = this;
+            Items = new();
+            Items.Add(new tbItem() { AS = "_", Q1="-",Q2="a>Q1"});
+            Items.Add(new tbItem() { AS = "a", Q1 = "-", Q2 = "a>Q1" });
+            Items.Add(new tbItem() { AS = "b", Q1 = "-", Q2 = "a>Q1" });
 
-
-
-
-            //List<List<string>> rows = new();
-            //string alph = "_ab";
-
-            //List<string> row = new() { alph[0].ToString() };
-            //row.Add("");
-            //row.Add("_<5");
-            //row.Add("_<5");
-            //row.Add("_<5");
-            //row.Add("_>7");
-            //row.Add("_.0");
-            //row.Add("");
-
-            //rows.Add(row);
-
-            //row = new() { alph[1].ToString() };
-            //row.Add("a>2");
-            //row.Add("a>3");
-            //row.Add("a>4");
-            //row.Add("a>6");
-            //row.Add("_<5");
-            //row.Add("a>6");
-            //row.Add("");
-            //rows.Add(row);
-
-            //row = new() { alph[2].ToString() };
-            //row.Add("b>2");
-            //row.Add("b>3");
-            //row.Add("b>4");
-            //row.Add("b>6");
-            //row.Add("_<5");
-            //row.Add("b>6");
-            //row.Add("a>6");
-            //rows.Add(row);
-
+            foreach (var item in Items)
+            {
+                item.AddProperty("Q11", "h1");
+            }
 
         }
 
@@ -98,29 +110,14 @@ namespace TuringMachineWPFTest
 
         private void ButtonAddRow_Click(object sender, RoutedEventArgs e)
         {
-            test = new();
-            test.Q0 = "_";
-            test.Q1 = "_<5";
-            test.Q2 = "_<5";
 
-            //test.Q0 = "_";
-            //test.Q1 = "a";
-            //test.Q2 = "b";
-
-            //Q1.Add("");
-            //Q1.Add("a>2");
-            //Q1.Add("b>2");
-
-            //Q2.Add("");
-            //Q2.Add("a>3");
-            //Q2.Add("b>3");
-
-            DG.Items.Add(test);
         }
 
         private void ButtonDeleteRow_Click(object sender, RoutedEventArgs e)
         {
             DG.Items.RemoveAt(DG.Items.Count - 1);
+            
         }
     }
+
 }

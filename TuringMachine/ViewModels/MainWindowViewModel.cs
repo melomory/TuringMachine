@@ -2,7 +2,11 @@
 using System.Windows.Input;
 using TuringMachine.Infrastructure.Commands;
 using TuringMachine.ViewModels.Base;
+using System.Collections.Generic;
 using System;
+using System.Collections.ObjectModel;
+using System.Windows.Controls;
+using TuringMachine.Models;
 
 namespace TuringMachine.ViewModels
 {
@@ -50,6 +54,48 @@ namespace TuringMachine.ViewModels
         }
         #endregion
 
+        #region Alphabet : string – Turing machine alphabet
+        /// <summary>
+        /// Turing machine alphabet
+        /// </summary>
+        private string _Alphabet = "ab\u03BB";
+        public string Alphabet
+        {
+            get => _Alphabet;
+            //set => Set(ref _Status, value);
+            set
+            {
+                if (_Alphabet != value)
+                {
+                    var sortedSetTmp = new SortedSet<char>(value);
+                    var emptyValue = "\u03BB";
+                    _Alphabet = String.Join("", sortedSetTmp).Replace("_", emptyValue);
+                    OnPropertyChanged();
+                }
+
+            }
+        }
+
+
+        #endregion
+
+        #region Rule table : 
+        private List<Rules> _rules;
+        public List<Rules> Rules
+        {
+            get
+            {
+                return _rules;
+            }
+            set
+            {
+                _rules = value;
+            }
+        }
+
+        #endregion
+
+
         #region Commands
 
         #region CloseAppCommand : ICommand – Command to close the app
@@ -63,8 +109,11 @@ namespace TuringMachine.ViewModels
         private bool CanCloseAppCommandExecute(object p) => true;
         #endregion
 
-
         #endregion
+
+
+
+
 
         public MainWindowViewModel()
         {
@@ -73,7 +122,11 @@ namespace TuringMachine.ViewModels
             CloseAppCommand = new RelayCommand(OnCloseAppCommandExecuted, CanCloseAppCommandExecute);
 
             #endregion
-
+            List<Rules> tmp = new();
+            tmp.Add(new Models.Rules() { AS = "_", Q1 = "-", Q2 = "a>Q1" });
+            tmp.Add(new Models.Rules() { AS = "a", Q1 = "-", Q2 = "a>Q1" });
+            tmp.Add(new Models.Rules() { AS = "b", Q1 = "-", Q2 = "a>Q1" });
+            Rules = tmp;
         }
     }
 }

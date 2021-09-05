@@ -25,17 +25,14 @@
                 <TextBlock MinWidth="150" MaxWidth="350"
                            Text="{Binding Status}"/>
             </StatusBarItem>
-            <StatusBarItem>
-                <ProgressBar Width="120" Height="15" Value="45"/>
-            </StatusBarItem>
         </StatusBar>
         <TabControl>
             <TabItem>
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <!--<Image Source=""/>-->
-                        <fa:ImageAwesome Icon="Regular_File" Height="15" Margin="0,0,5,0" Foreground="LightBlue"/>
-                        <TextBlock Text="Вкладка 1"/>
+                        <fa:ImageAwesome Icon="Regular_File" Height="15" Margin="0,0,5,0" Foreground="Coral"/>
+                        <TextBlock Text="Рабочая область"/>
                     </StackPanel>
                 </TabItem.Header>
                 <Grid>
@@ -44,22 +41,40 @@
                         <RowDefinition Height="73*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="102*"/>
+                        <ColumnDefinition Width="300*"/>
                         <ColumnDefinition Width="293*"/>
                     </Grid.ColumnDefinitions>
-                    <Rectangle Grid.Row="0" Grid.Column="0"
-                               Fill="Blue" Stroke="Red"
-                               StrokeThickness="4" 
-                               RadiusX="3" RadiusY="5"/>
-                    <Ellipse Grid.Row="0" Grid.Column="1"
-                               Fill="Red" Stroke="Blue"
-                               StrokeThickness="4" />
-                    <GridSplitter Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Алфавит:" FontSize="14" Margin="3"/>
+                            <TextBox Text="{Binding Alphabet, UpdateSourceTrigger=PropertyChanged}" FontSize="14" Width="auto"/>
+                        </StackPanel>
+                        <GroupBox Header="Таблица правил" Margin="0,0,5,0">
+                            <DockPanel>
+                                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                                    <Button Content="add column"/>
+                                    <Button Content="delete column"/>
+                                    <Button Content="add row"/>
+                                    <Button Content="delete row"/>
+                                </StackPanel>
+                                <DataGrid Name="DG" ItemsSource="{Binding Rules}" CanUserReorderColumns="False" Focusable="False" AutoGenerateColumns="True" CanUserResizeColumns="False" CanUserSortColumns="False">
+                                    <!--<DataGrid.Columns>
+                                        <DataGridTextColumn Width="30" CanUserResize="False" Header="A\S">
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Header="Q1"/>
+                                        <DataGridTextColumn Header="Q2"/>
+                                    </DataGrid.Columns>-->
+                                </DataGrid>
+                            </DockPanel>
+
+                        </GroupBox>
+                    </StackPanel>
+                    
+                    <GridSplitter Grid.Column="0" Grid.Row="0" Grid.RowSpan="1"
                                   HorizontalAlignment="Right"
                                   Width="4"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Вкладка 2"></TabItem>
         </TabControl>
     </DockPanel>
 </Window>

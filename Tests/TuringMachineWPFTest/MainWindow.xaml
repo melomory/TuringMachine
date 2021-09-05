@@ -35,10 +35,10 @@
                     <Button Content="add row" Click="ButtonAddRow_Click"/>
                     <Button Content="delete row" Click="ButtonDeleteRow_Click"/>
                 </StackPanel>
-            
-            <DataGrid Name="DG" ItemsSource="{Binding Test}" CanUserReorderColumns="False" Focusable="False" AutoGenerateColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False">
+
+                <DataGrid Name="DG" ItemsSource="{Binding Rules}" CanUserReorderColumns="False" Focusable="False" AutoGenerateColumns="True" CanUserResizeColumns="False" CanUserSortColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Width="30" CanUserResize="False" Header="A\S" Binding="{Binding Path=Q0}">
+                        <DataGridTextColumn Width="30" CanUserResize="False">
                             <!--<DataGridTextColumn.HeaderTemplate>
                                 --><!--<DataTemplate>
                                     <Border  BorderThickness="1" BorderBrush="Black">
@@ -59,8 +59,8 @@
                                 </DataTemplate>--><!--
                             </DataGridTextColumn.HeaderTemplate>-->
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Q1" Binding="{Binding Path=Q1}"/>
-                        <DataGridTextColumn Header="Q2" Binding="{Binding Path=Q2}"/>
+                        <DataGridTextColumn Header="Q1"/>
+                        <DataGridTextColumn Header="Q2"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </DockPanel>
