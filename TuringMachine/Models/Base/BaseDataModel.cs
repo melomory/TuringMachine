@@ -1,9 +1,14 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace TuringMachine.ViewModels.Base
+namespace TuringMachine.Models.Base
 {
-    internal abstract class ViewModel : INotifyPropertyChanged
+    internal abstract class BaseDataModel : INotifyPropertyChanged
     {
         #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;
@@ -26,18 +31,5 @@ namespace TuringMachine.ViewModels.Base
 
         }
         #endregion
-
-
-        protected virtual bool Set<T>(ref T field, T value, [CallerMemberName] string PropertyName = null)
-        {
-            if (Equals(field, value))
-            {
-                return false;
-            }
-
-            field = value;
-            OnPropertyChanged();
-            return true;
-        }
     }
 }
