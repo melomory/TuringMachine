@@ -6,87 +6,82 @@ using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 
 
 namespace TuringMachineConsole
 {
     class Program
     {
-        const string data_url = @"https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
-
-        private static async Task<Stream> GetDataStream()
-        {
-            HttpClient httpClient = new();
-            HttpResponseMessage response = await httpClient.GetAsync(data_url, HttpCompletionOption.ResponseHeadersRead);
-            return await response.Content.ReadAsStreamAsync();
-        }
-
-        private static IEnumerable<string> GetDataLines()
-        {
-            using var dataStream = GetDataStream().Result;
-            using var dataReader = new StreamReader(dataStream);
-
-            while (!dataReader.EndOfStream)
-            {
-                var line = dataReader.ReadLine();
-                if (string.IsNullOrEmpty(line))
-                {
-                    continue;
-                }
-                yield return line.Replace("Korea,", "Korea -");
-            }
-        }
-
-        private static DateTime[] GetDates() => GetDataLines()
-            .First()
-            .Split(',')
-            .Skip(4)
-            .Select(s => DateTime.Parse(s, CultureInfo.InvariantCulture))
-            .ToArray();
-
-
-        private static IEnumerable<(string Country, string Province, int[] Counts)> GetData()
-        {
-            var lines = GetDataLines()
-                .Skip(1)
-                .Select(line => line.Split(','));
-
-            foreach (var row in lines)
-            {
-                var provinceName = row[0].Trim();
-                var countryName = row[1].Trim(' ', '"');
-                var counts = row.Skip(5)
-                    .Select(int.Parse)
-                    .ToArray();
-                yield return (countryName, provinceName, counts);
-            }
-
-        }
 
         static void Main(string[] args)
         {
-            //WebClient client = new WebClient();
+            int state = 1;
+            string tape = "abb";
+            string alhpabet = "_ab";          
 
-            //HttpClient httpClient = new();
+            Dictionary<KeyValuePair<char, int>, string> configuration = new();
+            configuration.Add(new KeyValuePair<char, int>('_', 2), "_L5");
+            configuration.Add(new KeyValuePair<char, int>('_', 3), "_L5");
+            configuration.Add(new KeyValuePair<char, int>('_', 4), "_L5");
+            configuration.Add(new KeyValuePair<char, int>('_', 5), "_R7");
+            configuration.Add(new KeyValuePair<char, int>('_', 6), "_N0");
+            configuration.Add(new KeyValuePair<char, int>('a', 1), "aR2");
+            configuration.Add(new KeyValuePair<char, int>('a', 2), "aR3");
+            configuration.Add(new KeyValuePair<char, int>('a', 3), "aR4");
+            configuration.Add(new KeyValuePair<char, int>('a', 4), "aR6");
+            configuration.Add(new KeyValuePair<char, int>('a', 5), "_L5");
+            configuration.Add(new KeyValuePair<char, int>('a', 6), "aR6");
+            configuration.Add(new KeyValuePair<char, int>('b', 1), "bR2");
+            configuration.Add(new KeyValuePair<char, int>('b', 2), "bR3");
+            configuration.Add(new KeyValuePair<char, int>('b', 3), "bR4");
+            configuration.Add(new KeyValuePair<char, int>('b', 4), "bR6");
+            configuration.Add(new KeyValuePair<char, int>('b', 5), "_L5");
+            configuration.Add(new KeyValuePair<char, int>('b', 6), "bR6");
+            configuration.Add(new KeyValuePair<char, int>('_', 7), "aR6");
 
-            //HttpResponseMessage response = httpClient.GetAsync(data_url).Result;
-            //string stCSV = response.Content.ReadAsStringAsync().Result;
 
+            //get simbol
+            char carett = default;
 
-            //foreach (var data_line in GetDataLines())
-            //{
-            //    Console.WriteLine(data_line);
-            //}
+            int position = 0;
 
-            //var dates = GetDates();
-            //Console.WriteLine(String.Join("\r\n",dates));
+            
+            while (state != 0)
+            {
+                carett = tape[position];
+                string command = "";
+                if (!configuration.TryGetValue(new KeyValuePair<char, int>(carett, state), out command))
+                {
+                    Console.WriteLine("Undefined configuration");
+                    break;
+                }
+                StringBuilder sb = new();
+                sb.Append(tape);
+                sb[position] = command[0];
 
+                if (command[1] == 'R')
+                {
+                    position++;
+                } else if (command[1] == 'L')
+                {
+                    position--;
+                }
 
-            var russiaData = GetData().First(v => v.Country.Equals("Russia", StringComparison.OrdinalIgnoreCase));
+                if (position < 0)
+                {
+                    sb.Insert(0, '_');
+                    position = 0;
+                } else if (position == sb.Length)
+                {
+                    sb.Append('_');
+                }
+                state = int.Parse(command[2].ToString());
 
-            Console.WriteLine(String.Join("\r\n", GetDates().Zip(russiaData.Counts, (date, count) => $"{date:dd.MM} – {count}")));
-
-            Console.ReadLine();
+                tape = sb.ToString();
+                Console.WriteLine(tape);
+                sb.Clear();
+            }
         }
     }
 }
